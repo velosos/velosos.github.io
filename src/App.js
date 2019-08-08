@@ -1,26 +1,52 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {useState, useEffect} from 'react';
 import './App.css';
+import Info from './Face';
+import Network from './Social.js'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+const App = () => {
+
+  
+  const [profiles, setProfile] = useState([]);
+  
+   
+   useEffect(() => {
+
+   getProfile()
+
+   },[]);
+
+ 
+  const getProfile = async () => {
+   
+    const response = await fetch(
+      'https://lisboaitest.herokuapp.com/profiles'
+    );
+    const data = await response.json();
+    setProfile(data)
+  }
+
+  return(
+  <div>
+    
+    {profiles.map(profile => ( 
+    <Info
+    name={profile.name}
+    description={profile.short_description} 
+    photo ={profile.image} 
+    />
+    ))}
+
+  <Network/>
+
+  </div> 
+
   );
+
+
+
 }
 
 export default App;
+
+
+
